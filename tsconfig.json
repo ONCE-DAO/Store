@@ -11,12 +11,12 @@
   },
   "include": [
     "./src",
-    "../../../../../Scenarios/localhost"
+    "../../../../../Scenarios/localhost/webroot"
   ],
   "exclude": [
     "**/test/**/*",
     "dist",
     "node_modules",
-    "../../../../../Scenarios/localhost/tla/EAM/Store/main"
+    "../../../../../Scenarios/localhost/webroot/tla/EAM/Store/main"
   ]
 }

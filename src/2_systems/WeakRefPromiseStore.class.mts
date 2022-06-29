@@ -1,18 +1,20 @@
+import EventService, { DefaultEventService, EventServiceConsumer } from "ior:esm:/tla.EAM.EventService[main]";
 import { BaseThing } from "ior:esm:/tla.EAM.Once[dev]";
 import Store, { StoreEvents } from "../3_services/Store.interface.mjs";
 import ExtendedPromise from "./Promise.class.mjs";
 
 type storedObject = { ref?: any, promise?: any };
 
-export default class WeakRefPromiseStore extends BaseThing<WeakRefPromiseStore> implements Store {
+export default class WeakRefPromiseStore extends BaseThing<WeakRefPromiseStore> implements Store, EventServiceConsumer {
     EVENT_NAMES = StoreEvents;
 
-    // get eventSupport(): EventService<StoreEvents> {
-    //     if (this._eventSupport === undefined) {
-    //         this._eventSupport = new DefaultEventService(this);
-    //     }
-    //     return this._eventSupport;
-    // }
+    get eventSupport(): EventService<StoreEvents> {
+        if (this._eventSupport === undefined) {
+            this._eventSupport = new DefaultEventService(this);
+        }
+        return this._eventSupport;
+    }
+
     discover(): any[] {
         let result = [];
         for (const [key, objectRef] of Object.entries(this.registry)) {
@@ -65,6 +67,8 @@ export default class WeakRefPromiseStore extends BaseThing<WeakRefPromiseStore> 
     }
 
     clear() {
+        this.eventSupport.fire(StoreEvents.ON_CLEAR);
+
         this.mapRegistry = new Map();
         this.registry = {}
     }
@@ -86,6 +90,7 @@ export default class WeakRefPromiseStore extends BaseThing<WeakRefPromiseStore> 
     }
 
     register(key: any, value: any) {
+        this.eventSupport.fire(StoreEvents.ON_REGISTER, key, value);
 
         let objectRef: storedObject;
         const isPromise = ExtendedPromise.isPromise(value);
@@ -145,6 +150,8 @@ export default class WeakRefPromiseStore extends BaseThing<WeakRefPromiseStore> 
     }
 
     remove(key: any, config?: { silent: boolean }) {
+        this.eventSupport.fire(StoreEvents.ON_REMOVE, key, this.registry[key]);
+
         const value = !(config && config.silent === true) ? this.lookup(key) : '';
         if (typeof key === 'object') {
             this.mapRegistry.delete(key);

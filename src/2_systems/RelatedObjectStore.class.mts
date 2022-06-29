@@ -1,9 +1,10 @@
+import EventService, { DefaultEventService, EventServiceConsumer } from "ior:esm:/tla.EAM.EventService[main]";
 import { BaseThing, InterfaceDescriptorInterface } from "ior:esm:/tla.EAM.Once[dev]";
 import RelatedObjectStoreInterface, { RelatedObjectStoreStoredObject } from "../3_services/RelatedObjectStore.interface.mjs";
 import Store, { StoreEvents } from "../3_services/Store.interface.mjs";
 
-// TODO impl EventServiceConsumer
-export default class RelatedObjectStore extends BaseThing<RelatedObjectStore> implements Store, RelatedObjectStoreInterface {
+// TODO impl 
+export default class RelatedObjectStore extends BaseThing<RelatedObjectStore> implements Store, RelatedObjectStoreInterface, EventServiceConsumer {
 
     EVENT_NAMES = StoreEvents;
 
@@ -15,10 +16,13 @@ export default class RelatedObjectStore extends BaseThing<RelatedObjectStore> im
     }
 
     clear(): void {
+        this.eventSupport.fire(StoreEvents.ON_CLEAR);
+
         this.registry = new Map<InterfaceDescriptorInterface, RelatedObjectStoreStoredObject[]>();
     }
 
     register(aObject: RelatedObjectStoreStoredObject): void {
+        this.eventSupport.fire(StoreEvents.ON_REGISTER, aObject);
 
         let interfaces = aObject.classDescriptor.implementedInterfaces;
 
@@ -33,6 +37,8 @@ export default class RelatedObjectStore extends BaseThing<RelatedObjectStore> im
     }
 
     remove(aObject: RelatedObjectStoreStoredObject, anInterface?: InterfaceDescriptorInterface): void {
+        this.eventSupport.fire(StoreEvents.ON_REMOVE, aObject, anInterface);
+
         let interfaces = anInterface ? [anInterface] : aObject.classDescriptor.implementedInterfaces;
 
         for (const interfaceItem of interfaces) {
@@ -54,12 +60,12 @@ export default class RelatedObjectStore extends BaseThing<RelatedObjectStore> im
     discover(): Map<InterfaceDescriptorInterface, RelatedObjectStoreStoredObject[]> {
         return this.registry;
     }
-    //TODO
-    // get eventSupport(): EventService<StoreEvents> {
-    //     if (this._eventSupport === undefined) {
-    //         this._eventSupport = new DefaultEventService(this);
-    //     }
-    //     return this._eventSupport;
-    // }
+
+    get eventSupport(): EventService<StoreEvents> {
+        if (this._eventSupport === undefined) {
+            this._eventSupport = new DefaultEventService(this);
+        }
+        return this._eventSupport;
+    }
 
 }
