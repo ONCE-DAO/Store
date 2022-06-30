@@ -1,7 +1,6 @@
 import EventService, { DefaultEventService, EventServiceConsumer } from "ior:esm:/tla.EAM.EventService[main]";
-import { BaseThing } from "ior:esm:/tla.EAM.Once[dev]";
+import { BaseThing, ExtendedPromise } from "ior:esm:/tla.EAM.Once[dev]";
 import Store, { StoreEvents } from "../3_services/Store.interface.mjs";
-import ExtendedPromise from "./Promise.class.mjs";
 
 type storedObject = { ref?: any };
 
