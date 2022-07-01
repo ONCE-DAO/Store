@@ -1,4 +1,4 @@
-import { ClassDescriptorInterface, InterfaceDescriptorInterface } from "ior:esm:/tla.EAM.Once[dev]";
+import { ClassDescriptorInterface, InterfaceDescriptorInterface } from "ior:esm:/tla.EAM.Once[dev-merge]";
 import Store from "./Store.interface.mjs";
 
 export type RelatedObjectStoreStoredObject = { classDescriptor: ClassDescriptorInterface };

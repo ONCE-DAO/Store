@@ -1,5 +1,5 @@
 import WeakRefPromiseStore from "../src/2_systems/WeakRefPromiseStore.class.mjs";
-import { ExtendedPromise } from "ior:esm:/tla.EAM.Once[dev]";
+import { ExtendedPromise } from "ior:esm:/tla.EAM.Once[dev-merge]";
 
 describe("Default Store", () => {
     test("init", async () => {

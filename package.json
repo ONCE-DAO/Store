@@ -1,6 +1,6 @@
 {
   "name": "Store",
-  "version": "0.0.1",
+  "version": "build",
   "description": "",
   "main": "index.mjs",
   "namespace": "tla.EAM",
