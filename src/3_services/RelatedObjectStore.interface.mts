@@ -1,7 +1,7 @@
 import { ClassDescriptorInterface, InterfaceDescriptorInterface } from "ior:esm:/tla.EAM.Once[build]";
 import Store from "./Store.interface.mjs";
 
-export type RelatedObjectStoreStoredObject = { classDescriptor: ClassDescriptorInterface };
+export type RelatedObjectStoreStoredObject = { classDescriptor: ClassDescriptorInterface<any> };
 
 
 export default interface RelatedObjectStore extends Store {
