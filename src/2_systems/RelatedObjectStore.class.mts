@@ -1,10 +1,10 @@
-import EventService, { DefaultEventService, EventServiceConsumer } from "ior:esm:/tla.EAM.Once.EventService[build]";
+import { EventService, DefaultEventService, EventServiceConsumer } from "ior:esm:/tla.EAM.Once.EventService[build]";
 import { BaseThing, InterfaceDescriptorInterface } from "ior:esm:/tla.EAM.Once[build]";
-import RelatedObjectStoreInterface, { RelatedObjectStoreStoredObject } from "../3_services/RelatedObjectStore.interface.mjs";
+import RelatedObjectStore, { RelatedObjectStoreStoredObject } from "../3_services/RelatedObjectStore.interface.mjs";
 import Store, { StoreEvents } from "../3_services/Store.interface.mjs";
 
 // TODO impl 
-export default class RelatedObjectStore extends BaseThing<RelatedObjectStore> implements Store, RelatedObjectStoreInterface, EventServiceConsumer {
+export default class DefaultRelatedObjectStore extends BaseThing<RelatedObjectStore> implements Store, RelatedObjectStore, EventServiceConsumer {
 
     EVENT_NAMES = StoreEvents;
 

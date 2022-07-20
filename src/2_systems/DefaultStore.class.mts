@@ -1,4 +1,4 @@
-import EventService, { DefaultEventService, EventServiceConsumer } from "ior:esm:/tla.EAM.Once.EventService[build]";
+import { EventService, DefaultEventService, EventServiceConsumer } from "ior:esm:/tla.EAM.Once.EventService[build]";
 import { BaseThing } from "ior:esm:/tla.EAM.Once[build]";
 import Store, { StoreEvents } from "../3_services/Store.interface.mjs";
 
